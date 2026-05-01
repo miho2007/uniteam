@@ -3,53 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniTeam Finder</title>
+    <title>UniTeam Finder | Secure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .member-row:not(:last-child) { border-bottom: 1px solid #f1f5f9; }
+        .team-card { transition: transform 0.2s; }
+        .team-card:hover { transform: translateY(-3px); }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen pb-10">
+<body class="bg-slate-50 min-h-screen pb-10 font-sans">
 
-    <!-- Navbar -->
-    <nav class="bg-slate-900 text-white p-4 mb-8 shadow-md">
-        <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-tighter">UNITEAM <span class="text-indigo-400">HUB</span></h1>
-            <span class="text-xs bg-slate-800 px-3 py-1 rounded-full text-slate-400">University Project Tool</span>
+    <!-- Header -->
+    <nav class="bg-indigo-700 text-white p-6 mb-8 shadow-xl">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-2xl font-black italic tracking-tighter">UNITEAM <span class="text-indigo-300">SECURE</span></h1>
         </div>
     </nav>
 
     <main class="max-w-5xl mx-auto px-4">
         
-        <!-- Section: Create a Team -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
-            <h2 class="text-lg font-bold text-gray-800 mb-4">Create a New Team</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <input id="subject" type="text" placeholder="Subject (e.g. Physics)" class="p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
-                <input id="group" type="text" placeholder="Group Number" class="p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
-                <input id="max" type="number" placeholder="Max Team Size" class="p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
-                <button onclick="createTeam()" class="md:col-span-3 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition">Post My Team</button>
+        <!-- Create Team -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Post a Team</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <input id="subject" type="text" placeholder="Subject Name" class="p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                <input id="group" type="text" placeholder="Group/Section #" class="p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                <input id="max" type="number" placeholder="Max Team Size" class="p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                <input id="hostName" type="text" placeholder="Your Name (Host)" class="p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                <input id="hostContact" type="text" placeholder="Your Contact Link" class="p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                <input id="password" type="password" placeholder="Set Delete Password" class="p-3 bg-orange-50 border border-orange-100 rounded-xl outline-none focus:ring-2 focus:ring-orange-400">
+                <button onclick="createTeam()" class="lg:col-span-3 bg-indigo-600 text-white font-bold py-4 rounded-xl hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">Create Team</button>
             </div>
-        </div>
+        </section>
 
-        <!-- Section: Search -->
-        <div class="mb-8">
-            <input id="search" type="text" oninput="renderTeams()" placeholder="🔍 Search by subject or group number..." 
+        <!-- Search -->
+        <div class="mb-8 relative">
+            <input id="search" type="text" oninput="renderTeams()" placeholder="🔍 Filter by subject or group..." 
                 class="w-full p-4 rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-indigo-400 outline-none text-lg">
         </div>
 
-        <!-- Section: Team List -->
-        <div id="loading" class="text-center py-10 text-gray-400">Loading active teams...</div>
-        <div id="teams-container" class="grid grid-cols-1 gap-6">
-            <!-- Teams appear here -->
-        </div>
+        <div id="loading" class="text-center py-10 text-slate-400">Loading groups...</div>
+        <div id="teams-container" class="grid grid-cols-1 gap-6"></div>
     </main>
 
     <script>
         const API_URL = 'https://69f4baeefb098eb7f0b4ce25.mockapi.io/teams'; 
         let allTeams = [];
 
-        // Load Teams
         async function fetchTeams() {
             try {
                 const res = await fetch(API_URL);
@@ -57,24 +57,24 @@
                 document.getElementById('loading').classList.add('hidden');
                 renderTeams();
             } catch (err) {
-                document.getElementById('loading').innerText = "Error connecting to MockAPI.";
+                document.getElementById('loading').innerText = "Database connection error.";
             }
         }
 
-        // Create Team
         async function createTeam() {
-            const subject = document.getElementById('subject').value;
-            const group = document.getElementById('group').value;
-            const max = document.getElementById('max').value;
+            const fields = ['subject', 'group', 'max', 'hostName', 'hostContact', 'password'];
+            const data = {};
+            fields.forEach(f => data[f] = document.getElementById(f).value);
 
-            if(!subject || !group || !max) return alert("Please fill in all fields.");
+            if(Object.values(data).some(v => !v)) return alert("Fill all fields, including the password!");
 
             const newTeam = {
-                subject,
-                groupNumber: group,
-                maxMembers: parseInt(max),
-                currentMembers: 1, // The host is the first one
-                applicants: [] // Empty list for people who click "+"
+                subject: data.subject,
+                groupNumber: data.group,
+                maxMembers: parseInt(data.max),
+                password: data.password, // Saved to DB
+                currentMembers: 1,
+                applicants: [{ name: data.hostName, contact: data.hostContact, isHost: true }]
             };
 
             await fetch(API_URL, {
@@ -83,51 +83,43 @@
                 body: JSON.stringify(newTeam)
             });
 
-            // Reset UI
-            document.getElementById('subject').value = '';
-            document.getElementById('group').value = '';
-            document.getElementById('max').value = '';
-            fetchTeams();
+            location.reload();
         }
 
-        // Join Team (+) with Contact Info
         async function joinTeam(id) {
             const team = allTeams.find(t => t.id === id);
-            
-            if (team.currentMembers >= team.maxMembers) {
-                return alert("This team is already full!");
-            }
+            if (team.currentMembers >= team.maxMembers) return alert("Full!");
 
-            const name = prompt("Enter your Full Name:");
+            const name = prompt("Your Name:");
             if (!name) return;
-            const contact = prompt("Enter your Contact (e.g., Telegram @username or Phone):");
+            const contact = prompt("Your Contact (Telegram/WA):");
             if (!contact) return;
 
-            // Prepare updated data
             const updatedApplicants = [...(team.applicants || []), { name, contact }];
-            const updatedData = {
-                currentMembers: team.currentMembers + 1,
-                applicants: updatedApplicants
-            };
 
             await fetch(`${API_URL}/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(updatedData)
+                body: JSON.stringify({ 
+                    currentMembers: team.currentMembers + 1,
+                    applicants: updatedApplicants
+                })
             });
-
             fetchTeams();
         }
 
-        // Delete Team
         async function deleteTeam(id) {
-            if (confirm("Are you sure you want to remove this team post?")) {
+            const team = allTeams.find(t => t.id === id);
+            const inputPass = prompt("Enter the password for this post to delete it:");
+            
+            if (inputPass === team.password) {
                 await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
                 fetchTeams();
+            } else {
+                alert("Incorrect password! Only the host can delete this post.");
             }
         }
 
-        // Render function
         function renderTeams() {
             const query = document.getElementById('search').value.toLowerCase();
             const container = document.getElementById('teams-container');
@@ -140,54 +132,48 @@
 
             filtered.forEach(t => {
                 const isFull = t.currentMembers >= t.maxMembers;
-                const applicants = t.applicants || [];
+                const apps = t.applicants || [];
 
                 container.innerHTML += `
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col md:flex-row">
-                        <!-- Left Side: Team Info -->
+                    <div class="team-card bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col md:flex-row">
                         <div class="p-6 flex-1">
-                            <div class="flex items-center gap-3 mb-2">
-                                <h3 class="text-2xl font-bold text-gray-800">${t.subject}</h3>
-                                <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-lg text-sm font-mono">Grp: ${t.groupNumber}</span>
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-2xl font-black text-slate-800 tracking-tight underline decoration-indigo-200">${t.subject}</h3>
+                                <span class="text-xs font-bold px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full">GROUP ${t.groupNumber}</span>
                             </div>
                             
-                            <div class="mb-4">
-                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">People who joined via +</p>
-                                <div class="bg-gray-50 rounded-xl p-3 border border-gray-100 min-h-[50px]">
-                                    ${applicants.length === 0 ? 
-                                        '<span class="text-gray-400 text-sm">No one has joined yet.</span>' : 
-                                        applicants.map(a => `
-                                            <div class="member-row py-2 flex justify-between items-center text-sm">
-                                                <span class="font-bold text-gray-700">${a.name}</span>
-                                                <span class="text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded">${a.contact}</span>
-                                            </div>
-                                        `).join('')
-                                    }
+                            <div class="space-y-2">
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Members & Applicants</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    ${apps.map(a => `
+                                        <div class="p-2 bg-slate-50 rounded-lg border border-slate-100 flex flex-col">
+                                            <span class="text-sm font-bold text-slate-700">${a.name} ${a.isHost ? '👑' : ''}</span>
+                                            <span class="text-xs text-indigo-500 truncate">${a.contact}</span>
+                                        </div>
+                                    `).join('')}
                                 </div>
                             </div>
-
-                            <button onclick="deleteTeam('${t.id}')" class="text-xs text-gray-300 hover:text-red-500 transition uppercase font-bold">Remove Post</button>
                         </div>
 
-                        <!-- Right Side: Status & Join -->
-                        <div class="${isFull ? 'bg-gray-50' : 'bg-indigo-50'} p-6 flex flex-col items-center justify-center md:w-48 border-t md:border-t-0 md:border-l border-gray-100">
-                            <div class="text-center mb-4">
-                                <span class="block text-3xl font-black text-gray-800">${t.currentMembers}/${t.maxMembers}</span>
-                                <span class="text-xs text-gray-500 font-bold uppercase tracking-widest">Members</span>
-                            </div>
+                        <div class="p-6 bg-slate-900 md:w-56 flex flex-col items-center justify-center text-white text-center border-t md:border-t-0 border-slate-800">
+                            <span class="text-4xl font-black">${t.currentMembers}/${t.maxMembers}</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 mb-4 tracking-tighter">Team Capacity</span>
+                            
                             <button onclick="joinTeam('${t.id}')" 
-                                class="w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-3xl font-bold transition
-                                ${isFull ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-110 active:scale-95'}"
+                                class="w-full py-3 rounded-xl font-bold transition mb-3
+                                ${isFull ? 'bg-slate-800 text-slate-600 cursor-not-allowed' : 'bg-emerald-500 hover:bg-emerald-600 active:scale-95'}"
                                 ${isFull ? 'disabled' : ''}>
-                                ${isFull ? 'FULL' : '+'}
+                                ${isFull ? 'CLOSED' : 'JOIN +'}
                             </button>
+                            
+                            <button onclick="deleteTeam('${t.id}')" class="text-[10px] text-slate-500 hover:text-red-400 uppercase font-bold tracking-widest">Remove Post 🔒</button>
                         </div>
                     </div>
                 `;
             });
         }
 
-        fetchTeams();
+            fetchTeams();
     </script>
 </body>
 </html>
