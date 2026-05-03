@@ -5,25 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniTeam Finder | Secure Recruitment</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Check for dark mode preference on load
+        if (localStorage.getItem('dark-mode') === 'true' || (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
         .team-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .team-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.1); }
-        .blur-text { filter: blur(4px); user-select: none; }
+        .blur-text { filter: blur(5px); user-select: none; transition: filter 0.5s ease; }
+        .dark .team-card { background-color: #1e293b; border-color: #334155; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col text-slate-900">
+<body class="bg-slate-50 dark:bg-slate-950 min-h-screen flex flex-col text-slate-900 dark:text-slate-100">
 
     <!-- Header -->
-    <nav class="bg-indigo-700 text-white py-6 shadow-lg">
+    <nav class="bg-indigo-700 dark:bg-indigo-900 text-white py-6 shadow-lg transition-colors">
         <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-black italic tracking-tighter">UNITEAM <span class="text-indigo-300 underline decoration-emerald-400">FINDER</span></h1>
-                <p class="text-xs text-indigo-100 font-medium tracking-wide">University Group Recruitment Portal</p>
+                <h1 class="text-2xl font-black italic tracking-tighter uppercase">UNITEAM <span class="text-indigo-300 underline decoration-emerald-400">FINDER</span></h1>
+                <p class="text-xs text-indigo-100 font-medium tracking-wide">Secure Group Recruitment</p>
             </div>
-            <div class="hidden md:block text-right">
-                <span class="text-[10px] bg-indigo-800 px-3 py-1 rounded-full border border-indigo-500 font-bold uppercase tracking-widest">v2.0 Secure</span>
+            <div class="flex items-center gap-4">
+                <!-- Dark Mode Button -->
+                <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-indigo-800 dark:bg-indigo-700 hover:bg-indigo-600 transition-all border border-indigo-500 shadow-inner">
+                    <span id="dark-icon" class="text-lg">🌙</span>
+                </button>
+                <span class="hidden md:block text-[10px] bg-indigo-800 px-3 py-1 rounded-full border border-indigo-500 font-bold uppercase tracking-widest">v2.1 Secure</span>
             </div>
         </div>
     </nav>
@@ -31,38 +41,38 @@
     <main class="max-w-5xl mx-auto px-4 py-10 flex-grow w-full">
         
         <!-- Post Team Section -->
-        <section class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8 mb-10">
-            <div class="flex items-center gap-2 mb-6 border-b border-slate-100 pb-4">
+        <section class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 md:p-8 mb-10 transition-colors">
+            <div class="flex items-center gap-2 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
                 <div class="w-2 h-6 bg-indigo-600 rounded-full"></div>
-                <h2 class="text-xl font-bold text-slate-800 uppercase tracking-tight">Create a Recruitment Post</h2>
+                <h2 class="text-xl font-bold text-slate-800 dark:text-white uppercase tracking-tight">Create a Recruitment Post</h2>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-500 ml-1">SUBJECT NAME</label>
-                    <input id="subject" type="text" placeholder="e.g. Data Structures" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                    <input id="subject" type="text" placeholder="e.g. Data Structures" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-500 ml-1">SECTION / GROUP CODE</label>
-                    <input id="group" type="text" placeholder="e.g. L1 or Sec-B" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input id="group" type="text" placeholder="e.g. L1 or Sec-B" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black text-slate-500 ml-1">TEAM SIZE (MAX)</label>
-                    <input id="max" type="number" min="2" placeholder="e.g. 5" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                    <label class="text-[10px] font-black text-slate-500 ml-1 text-emerald-600">TEAM SIZE (MAX)</label>
+                    <input id="max" type="number" min="2" placeholder="e.g. 5" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-500 ml-1">HOST NAME</label>
-                    <input id="hostName" type="text" placeholder="Your Name" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input id="hostName" type="text" placeholder="Your Name" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-500 ml-1">PRIVATE CONTACT LINK</label>
-                    <input id="hostContact" type="text" placeholder="Telegram/WA Link" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input id="hostContact" type="text" placeholder="Telegram/WA Link" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black text-orange-600 ml-1 uppercase">Post Password (REQUIRED)</label>
-                    <input id="password" type="password" placeholder="For Deletion & Privacy" class="w-full p-3 bg-orange-50 border border-orange-100 rounded-xl outline-none focus:ring-2 focus:ring-orange-400">
+                    <label class="text-[10px] font-black text-orange-600 ml-1 uppercase">Post Password (CRITICAL)</label>
+                    <input id="password" type="password" placeholder="Needed to reveal links" class="w-full p-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-100 dark:border-orange-900/40 rounded-xl outline-none focus:ring-2 focus:ring-orange-400">
                 </div>
-                <button id="createBtn" onclick="createTeam()" class="lg:col-span-3 bg-indigo-600 text-white font-black py-4 rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 active:scale-[0.98]">
+                <button id="createBtn" onclick="createTeam()" class="lg:col-span-3 bg-indigo-600 text-white font-black py-4 rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 dark:shadow-none active:scale-[0.98]">
                     PUBLISH GROUP LISTING
                 </button>
             </div>
@@ -71,11 +81,10 @@
         <!-- Search Bar -->
         <div class="mb-10 relative">
             <input id="search" type="text" oninput="renderTeams()" placeholder="Search by subject or section..." 
-                class="w-full p-5 pl-14 rounded-2xl border border-slate-200 shadow-sm focus:ring-2 focus:ring-indigo-400 outline-none text-lg">
+                class="w-full p-5 pl-14 rounded-2xl border border-slate-200 dark:border-slate-800 dark:bg-slate-900 shadow-sm focus:ring-2 focus:ring-indigo-400 outline-none text-lg">
             <span class="absolute left-5 top-1/2 -translate-y-1/2 text-2xl opacity-30">🔍</span>
         </div>
 
-        <!-- Feed State -->
         <div id="loading" class="text-center py-20 flex flex-col items-center">
             <div class="animate-spin rounded-full h-10 w-10 border-4 border-slate-200 border-t-indigo-600 mb-4"></div>
             <p class="text-slate-400 font-bold uppercase tracking-widest text-xs">Accessing Database...</p>
@@ -85,19 +94,19 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-10 mt-10">
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-10 mt-10 transition-colors">
         <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="text-center md:text-left">
-                <h3 class="font-black text-slate-800 italic tracking-tighter">UNITEAM FINDER</h3>
-                <p class="text-xs text-slate-400 mt-1 font-medium">Built for students. Safe, private, and fast.</p>
+                <h3 class="font-black text-slate-800 dark:text-white italic tracking-tighter">UNITEAM FINDER</h3>
+                <p class="text-xs text-slate-400 mt-1 font-medium italic">Building better student groups, one match at a time.</p>
             </div>
             <div class="flex gap-4 text-xs font-bold text-slate-500">
-                <a href="#" class="hover:text-indigo-600 transition">How it works</a>
-                <a href="#" class="hover:text-indigo-600 transition">Privacy Policy</a>
-                <a href="#" class="hover:text-indigo-600 transition">Contact Admin</a>
+                <a href="#" class="hover:text-indigo-600 transition">GitHub</a>
+                <a href="#" class="hover:text-indigo-600 transition">Privacy</a>
+                <a href="#" class="hover:text-indigo-600 transition">Feedback</a>
             </div>
-            <div class="text-[10px] text-slate-300 font-bold tracking-widest uppercase">
-                &copy; 2024 Project Hub
+            <div class="text-[10px] text-slate-300 dark:text-slate-600 font-bold tracking-widest uppercase">
+                &copy; 2024 UniTeam Hub
             </div>
         </div>
     </footer>
@@ -105,6 +114,12 @@
     <script>
         const API_URL = 'https://69f4baeefb098eb7f0b4ce25.mockapi.io/teams'; 
         let allTeams = [];
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('dark-mode', isDark);
+            document.getElementById('dark-icon').innerText = isDark ? '☀️' : '🌙';
+        }
 
         async function fetchTeams() {
             try {
@@ -120,15 +135,16 @@
         async function createTeam() {
             const btn = document.getElementById('createBtn');
             const data = {
-                subject: document.getElementById('subject').value,
-                groupNumber: document.getElementById('group').value,
+                subject: document.getElementById('subject').value.trim(),
+                groupNumber: document.getElementById('group').value.trim(),
                 maxMembers: parseInt(document.getElementById('max').value),
-                hostName: document.getElementById('hostName').value,
-                hostContact: document.getElementById('hostContact').value,
-                password: document.getElementById('password').value
+                hostName: document.getElementById('hostName').value.trim(),
+                hostContact: document.getElementById('hostContact').value.trim(),
+                password: document.getElementById('password').value.trim()
             };
 
             if(Object.values(data).some(v => !v)) return alert("All fields are required!");
+            if(data.maxMembers < 2) return alert("Min team size is 2");
 
             btn.disabled = true;
             btn.innerText = "POSTING...";
@@ -150,13 +166,13 @@
 
         async function joinTeam(id) {
             const team = allTeams.find(t => t.id === id);
-            if (team.currentMembers >= team.maxMembers) return alert("Full!");
+            if (team.currentMembers >= team.maxMembers) return alert("Group is full!");
 
             const name = prompt("Your Name:");
-            const contact = name ? prompt("Your Contact Link (Telegram/WA):") : null;
+            const contact = name ? prompt("Your Contact Link (Telegram/WA/Discord):") : null;
             if (!name || !contact) return;
 
-            const updatedApplicants = [...(team.applicants || []), { name, contact }];
+            const updatedApplicants = [...(team.applicants || []), { name: name.trim(), contact: contact.trim(), isHost: false }];
 
             await fetch(`${API_URL}/${id}`, {
                 method: 'PUT',
@@ -171,15 +187,16 @@
 
         function revealContacts(id) {
             const team = allTeams.find(t => t.id === id);
-            const inputPass = prompt("Enter the post password to reveal contact links:");
+            const inputPass = prompt("Enter the post password to reveal contact links for all members:");
             
             if (inputPass === team.password) {
-                team.applicants.forEach(a => {
-                    const el = document.getElementById(`contact-${id}-${a.name}`);
+                // Reveal every participant's link by targeting their unique ID
+                team.applicants.forEach((a, index) => {
+                    const el = document.getElementById(`contact-${id}-${index}`);
                     if(el) {
                         el.innerText = a.contact;
-                        el.classList.remove('blur-text', 'text-slate-300');
-                        el.classList.add('text-indigo-600', 'font-bold');
+                        el.classList.remove('blur-text', 'text-slate-300', 'dark:text-slate-600');
+                        el.classList.add('text-indigo-600', 'dark:text-indigo-400', 'font-bold');
                     }
                 });
             } else {
@@ -189,7 +206,7 @@
 
         async function deletePost(id) {
             const team = allTeams.find(t => t.id === id);
-            if(prompt("Enter password to DELETE this post:") === team.password) {
+            if(prompt("Enter password to DELETE this post permanently:") === team.password) {
                 await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
                 fetchTeams();
             } else {
@@ -202,32 +219,40 @@
             const container = document.getElementById('teams-container');
             container.innerHTML = '';
 
-            const filtered = allTeams.filter(t => t.subject.toLowerCase().includes(query) || t.groupNumber.toLowerCase().includes(query));
+            const filtered = allTeams.sort((a,b) => b.id - a.id).filter(t => 
+                t.subject.toLowerCase().includes(query) || 
+                t.groupNumber.toLowerCase().includes(query)
+            );
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-400 py-10">No active groups found...</p>`;
+                return;
+            }
 
             filtered.forEach(t => {
                 const isFull = t.currentMembers >= t.maxMembers;
                 const apps = t.applicants || [];
 
                 container.innerHTML += `
-                    <div class="team-card bg-white rounded-3xl border border-slate-200 overflow-hidden flex flex-col md:flex-row shadow-sm">
+                    <div class="team-card bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col md:flex-row shadow-sm">
                         <div class="p-6 md:p-8 flex-1">
                             <div class="flex justify-between items-start mb-6">
                                 <div>
-                                    <h3 class="text-2xl font-black text-slate-800 leading-none mb-2">${t.subject}</h3>
-                                    <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 px-2 py-1 rounded">SECTION ${t.groupNumber}</span>
+                                    <h3 class="text-2xl font-black text-slate-800 dark:text-white leading-none mb-2 uppercase">${t.subject}</h3>
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-2 py-1 rounded">SECTION ${t.groupNumber}</span>
                                 </div>
-                                <button onclick="revealContacts('${t.id}')" class="text-[10px] font-black text-slate-400 hover:text-indigo-600 border border-slate-100 px-3 py-1 rounded-lg transition uppercase tracking-tighter">
+                                <button onclick="revealContacts('${t.id}')" class="text-[10px] font-black text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-100 dark:border-slate-800 px-3 py-1 rounded-lg transition uppercase tracking-tighter">
                                     🔑 Unlock Links
                                 </button>
                             </div>
                             
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                ${apps.map(a => `
-                                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                                ${apps.map((a, index) => `
+                                    <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800">
                                         <div class="text-xl">${a.isHost ? '👑' : '👤'}</div>
                                         <div class="overflow-hidden">
-                                            <p class="text-sm font-bold text-slate-700 leading-tight">${a.name}</p>
-                                            <p id="contact-${t.id}-${a.name}" class="text-[10px] blur-text text-slate-300 truncate">HIDDEN_CONTACT_INFO</p>
+                                            <p class="text-sm font-bold text-slate-700 dark:text-slate-200 leading-tight">${a.name}</p>
+                                            <p id="contact-${t.id}-${index}" class="text-[10px] blur-text text-slate-300 dark:text-slate-600 truncate">HIDDEN_CONTACT</p>
                                         </div>
                                     </div>
                                 `).join('')}
@@ -238,24 +263,30 @@
                             <div class="text-center mb-6">
                                 <span class="text-5xl font-black">${t.currentMembers}</span>
                                 <span class="text-xl text-slate-500 font-bold">/${t.maxMembers}</span>
-                                <p class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mt-1">Capacity</p>
+                                <p class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mt-1">Total Members</p>
                             </div>
                             
                             <button onclick="joinTeam('${t.id}')" 
                                 class="w-full py-4 rounded-2xl font-black transition-all mb-4 text-xs tracking-widest
                                 ${isFull ? 'bg-slate-800 text-slate-600 cursor-not-allowed' : 'bg-emerald-500 hover:bg-emerald-400 text-slate-900 shadow-lg shadow-emerald-500/20 active:scale-95'}"
                                 ${isFull ? 'disabled' : ''}>
-                                ${isFull ? 'GROUP FULL' : 'JOIN NOW'}
+                                ${isFull ? 'GROUP FULL' : 'JOIN GROUP'}
                             </button>
                             
-                            <button onclick="deletePost('${t.id}')" class="text-[10px] font-black text-slate-600 hover:text-red-400 uppercase tracking-widest">Remove Listing</button>
+                            <button onclick="deletePost('${t.id}')" class="text-[10px] font-black text-slate-600 hover:text-red-400 uppercase tracking-widest">Delete Post</button>
                         </div>
                     </div>
                 `;
             });
         }
 
-        fetchTeams();
+        // Initialize icon on start
+        window.onload = () => {
+            fetchTeams();
+            if(document.documentElement.classList.contains('dark')) {
+                document.getElementById('dark-icon').innerText = '☀️';
+            }
+        };
     </script>
 </body>
 </html>
