@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniTeam Finder | Pro Management</title>
+    <title>UniTeam Finder | Advanced Search</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         if (localStorage.getItem('dark-mode') === 'true') document.documentElement.classList.add('dark');
@@ -13,7 +13,7 @@
         body { font-family: 'Inter', sans-serif; }
         .modal-animate { animation: fadeIn 0.2s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .blur-text { filter: blur(5px); transition: filter 0.4s; }
+        .blur-text { filter: blur(6px); transition: filter 0.4s; }
         .toast { animation: slideIn 0.3s ease-out forwards; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
     </style>
@@ -22,13 +22,13 @@
 
     <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3"></div>
 
-    <div id="modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] hidden flex items-center justify-center p-4">
+    <div id="modal-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-md z-[90] hidden flex items-center justify-center p-4">
         <div id="modal-content" class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-8 shadow-2xl modal-animate border border-slate-200 dark:border-slate-800 text-center"></div>
     </div>
 
     <nav class="bg-indigo-700 dark:bg-indigo-900 text-white py-6 shadow-lg sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
-            <h1 class="text-2xl font-black italic tracking-tighter">UNITEAM <span class="text-indigo-300">PRO</span></h1>
+            <h1 class="text-2xl font-black italic tracking-tighter uppercase">UNITEAM <span class="text-indigo-400">FINDER</span></h1>
             <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-indigo-800 dark:bg-indigo-700 border border-indigo-500">
                 <span id="dark-icon">🌙</span>
             </button>
@@ -36,34 +36,42 @@
     </nav>
 
     <main class="max-w-5xl mx-auto px-4 py-10">
-        <!-- Input Form (Same as previous) -->
-        <section class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 mb-10">
+        <!-- Search Input -->
+        <div class="mb-8 relative">
+            <input id="search-input" type="text" oninput="renderTeams()" placeholder="Search by Subject, Section, or Student Name..." 
+                   class="w-full p-5 pl-14 rounded-3xl border-2 border-transparent bg-white dark:bg-slate-900 shadow-xl focus:border-indigo-500 outline-none text-lg transition-all dark:border-slate-800">
+            <span class="absolute left-5 top-1/2 -translate-y-1/2 text-2xl opacity-40">🔍</span>
+        </div>
+
+        <!-- Creation Form -->
+        <section class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 mb-12 shadow-sm">
             <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
-                <span class="w-2 h-6 bg-emerald-500 rounded-full"></span> New Recruitment Post
+                <span class="w-2 h-6 bg-indigo-500 rounded-full"></span> Post New Recruitment
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <input id="subject" type="text" placeholder="Subject Name" class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500">
-                <input id="group" type="text" placeholder="Section" class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 outline-none">
-                <input id="max" type="number" placeholder="Max Team Size" class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 outline-none">
-                <input id="hostName" type="text" placeholder="Host Name" class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 outline-none">
-                <input id="hostContact" type="text" placeholder="Contact Link" class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 outline-none">
-                <input id="password" type="password" placeholder="Set Deletion Password" class="p-3 rounded-xl bg-orange-50 dark:bg-orange-900/10 border border-orange-200 dark:border-orange-900/30 outline-none">
-                <button onclick="createTeam()" id="createBtn" class="lg:col-span-3 bg-indigo-600 text-white font-bold py-4 rounded-2xl hover:bg-indigo-700 transition-all">Publish Listing</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <input id="subject" type="text" placeholder="Subject (e.g. CS101)" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 outline-none border border-transparent focus:border-indigo-500 transition-all">
+                <input id="group" type="text" placeholder="Section (e.g. A1)" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 outline-none border border-transparent focus:border-indigo-500 transition-all">
+                <input id="max" type="number" placeholder="Team Size" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 outline-none border border-transparent focus:border-indigo-500 transition-all">
+                <input id="hostName" type="text" placeholder="Your Name" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 outline-none border border-transparent focus:border-indigo-500 transition-all">
+                <input id="hostContact" type="text" placeholder="Contact Link" class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 outline-none border border-transparent focus:border-indigo-500 transition-all">
+                <input id="password" type="password" placeholder="Management Password" class="p-4 rounded-2xl bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-900/30 outline-none focus:border-orange-500 transition-all">
+                <button onclick="createTeam()" id="createBtn" class="lg:col-span-3 bg-indigo-600 text-white font-black py-4 rounded-2xl hover:bg-indigo-700 transition-all transform active:scale-[0.98]">PUBLISH LISTING</button>
             </div>
         </section>
 
-        <div id="teams-container" class="grid grid-cols-1 gap-8 pb-20"></div>
+        <div id="teams-container" class="grid grid-cols-1 gap-10 pb-20"></div>
     </main>
 
     <script>
         const API_URL = 'https://69f4baeefb098eb7f0b4ce25.mockapi.io/teams'; 
         let allTeams = [];
+        let unlockedPosts = new Set(); // Keep track of which posts are unlocked in the current session
 
         function showToast(msg, type = 'error') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `toast p-4 rounded-2xl shadow-xl border text-sm font-bold flex items-center gap-3 bg-white dark:bg-slate-900 ${type === 'error' ? 'border-red-200 text-red-600' : 'border-emerald-200 text-emerald-600'}`;
-            toast.innerHTML = `<span>${type === 'error' ? '⚠️' : '✅'}</span> ${msg}`;
+            toast.className = `toast p-4 rounded-2xl shadow-2xl border-2 text-sm font-bold flex items-center gap-3 bg-white dark:bg-slate-900 ${type === 'error' ? 'border-red-500 text-red-600' : 'border-emerald-500 text-emerald-600'}`;
+            toast.innerHTML = `<span>${type === 'error' ? '✖' : '✔'}</span> ${msg}`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
@@ -76,22 +84,28 @@
         function closeModal() { document.getElementById('modal-overlay').classList.add('hidden'); }
 
         async function fetchTeams() {
-            const res = await fetch(API_URL);
-            allTeams = await res.json();
-            renderTeams();
+            try {
+                const res = await fetch(API_URL);
+                allTeams = await res.json();
+                renderTeams();
+            } catch (e) { showToast("Database error"); }
         }
 
         async function createTeam() {
             const data = {
-                subject: document.getElementById('subject').value,
-                groupNumber: document.getElementById('group').value,
+                subject: document.getElementById('subject').value.trim(),
+                groupNumber: document.getElementById('group').value.trim(),
                 maxMembers: parseInt(document.getElementById('max').value),
-                hostName: document.getElementById('hostName').value,
-                hostContact: document.getElementById('hostContact').value,
+                hostName: document.getElementById('hostName').value.trim(),
+                hostContact: document.getElementById('hostContact').value.trim(),
                 password: document.getElementById('password').value
             };
-            if(Object.values(data).some(v => !v)) return showToast("All fields are required!");
+            if(Object.values(data).some(v => !v)) return showToast("Please fill all fields");
             
+            const btn = document.getElementById('createBtn');
+            btn.disabled = true;
+            btn.innerText = "PUBLISHING...";
+
             await fetch(API_URL, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -102,20 +116,20 @@
 
         function promptJoin(id) {
             openModal(`
-                <h3 class="text-2xl font-black mb-6">Join Group</h3>
+                <h3 class="text-2xl font-black mb-6">Join This Team</h3>
                 <div class="space-y-4">
-                    <input id="join-name" type="text" placeholder="Your Name" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 outline-none border border-transparent focus:border-indigo-500">
-                    <input id="join-contact" type="text" placeholder="Telegram/WA Link" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 outline-none border border-transparent focus:border-indigo-500">
-                    <button onclick="confirmJoin('${id}')" class="w-full py-4 bg-emerald-500 text-slate-900 font-black rounded-2xl shadow-lg">JOIN TEAM</button>
-                    <button onclick="closeModal()" class="w-full text-slate-400 font-bold uppercase text-xs">Close</button>
+                    <input id="join-name" type="text" placeholder="Full Name" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 outline-none border-2 border-transparent focus:border-indigo-500">
+                    <input id="join-contact" type="text" placeholder="Telegram/WhatsApp Link" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 outline-none border-2 border-transparent focus:border-indigo-500">
+                    <button onclick="confirmJoin('${id}')" class="w-full py-4 bg-emerald-500 text-slate-900 font-black rounded-2xl shadow-lg">CONFIRM ENROLLMENT</button>
+                    <button onclick="closeModal()" class="w-full text-slate-400 font-bold uppercase text-xs">Cancel</button>
                 </div>
             `);
         }
 
         async function confirmJoin(id) {
-            const name = document.getElementById('join-name').value;
-            const contact = document.getElementById('join-contact').value;
-            if(!name || !contact) return showToast("Name and contact required!");
+            const name = document.getElementById('join-name').value.trim();
+            const contact = document.getElementById('join-contact').value.trim();
+            if(!name || !contact) return showToast("Name/Contact missing");
 
             const team = allTeams.find(t => t.id === id);
             const updated = [...team.applicants, {name, contact, isHost: false}];
@@ -126,17 +140,17 @@
                 body: JSON.stringify({currentMembers: team.currentMembers + 1, applicants: updated})
             });
             closeModal();
-            showToast("Successfully joined!", "success");
+            showToast("Welcome to the team!", "success");
             fetchTeams();
         }
 
         function promptUnlock(id) {
             openModal(`
-                <h3 class="text-2xl font-black mb-2 italic">Admin Panel</h3>
-                <p class="text-slate-400 text-xs mb-6 font-bold uppercase tracking-widest">Verify Password to Manage</p>
-                <input id="unlock-pass" type="password" placeholder="Group Password" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 outline-none mb-4 border border-transparent focus:border-orange-500">
-                <button onclick="confirmUnlock('${id}')" class="w-full py-4 bg-indigo-600 text-white font-black rounded-2xl shadow-lg">UNLOCK ACCESS</button>
-                <button onclick="closeModal()" class="w-full mt-4 text-slate-400 font-bold uppercase text-xs">Cancel</button>
+                <h3 class="text-2xl font-black mb-2">Team Admin</h3>
+                <p class="text-slate-400 text-xs mb-6 font-bold uppercase tracking-widest">Enter Password to manage members</p>
+                <input id="unlock-pass" type="password" placeholder="Group Password" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 outline-none mb-4 border-2 border-transparent focus:border-indigo-500">
+                <button onclick="confirmUnlock('${id}')" class="w-full py-4 bg-indigo-600 text-white font-black rounded-2xl">UNLOCK DASHBOARD</button>
+                <button onclick="closeModal()" class="w-full mt-4 text-slate-400 font-bold uppercase text-xs">Close</button>
             `);
         }
 
@@ -144,97 +158,108 @@
             const pass = document.getElementById('unlock-pass').value;
             const team = allTeams.find(t => t.id === id);
             if(pass === team.password) {
+                unlockedPosts.add(id);
                 closeModal();
-                team.applicants.forEach((a, i) => {
-                    const el = document.getElementById(`c-${id}-${i}`);
-                    if(el) { 
-                        el.innerText = a.contact; 
-                        el.classList.remove('blur-text', 'text-slate-300');
-                        el.classList.add('text-indigo-500', 'font-bold');
-                    }
-                    // Show Copy and Delete buttons
-                    document.getElementById(`actions-${id}-${i}`).classList.remove('hidden');
-                });
-                // Show Global Delete Post button
-                document.getElementById(`delete-post-${id}`).classList.remove('hidden');
+                renderTeams(); // Re-render to show hidden buttons
                 showToast("Admin access granted", "success");
             } else {
-                showToast("Incorrect password");
+                showToast("Invalid password");
             }
         }
 
         async function removeParticipant(teamId, applicantIndex) {
-            if(!confirm("Are you sure you want to remove this member?")) return;
-            
+            if(!confirm("Remove this member?")) return;
             const team = allTeams.find(t => t.id === teamId);
             const updatedApplicants = team.applicants.filter((_, index) => index !== applicantIndex);
             
             await fetch(`${API_URL}/${teamId}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    currentMembers: team.currentMembers - 1,
-                    applicants: updatedApplicants
-                })
+                body: JSON.stringify({currentMembers: team.currentMembers - 1, applicants: updatedApplicants})
             });
-            showToast("Member removed", "success");
             fetchTeams();
         }
 
         function copyLink(text) {
             navigator.clipboard.writeText(text);
-            showToast("Copied to clipboard!", "success");
+            showToast("Link Copied!", "success");
         }
 
         async function deletePost(id) {
-            if(!confirm("DELETE ENTIRE POST? This cannot be undone.")) return;
+            if(!confirm("DELETE THIS POST PERMANENTLY?")) return;
             await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-            showToast("Post deleted");
             fetchTeams();
         }
 
         function renderTeams() {
+            const query = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('teams-container');
             container.innerHTML = '';
-            allTeams.sort((a,b) => b.id - a.id).forEach(t => {
+
+            // Advanced Filter: Checks Subject, Section, and Names of all applicants
+            const filtered = allTeams.filter(t => 
+                t.subject.toLowerCase().includes(query) || 
+                t.groupNumber.toLowerCase().includes(query) ||
+                t.applicants.some(a => a.name.toLowerCase().includes(query))
+            ).sort((a,b) => b.id - a.id);
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-20 opacity-30 font-black text-2xl uppercase tracking-tighter">No Groups Found</div>`;
+                return;
+            }
+
+            filtered.forEach(t => {
                 const isFull = t.currentMembers >= t.maxMembers;
+                const isUnlocked = unlockedPosts.has(t.id);
+
                 container.innerHTML += `
-                    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col md:flex-row shadow-xl shadow-slate-200/40 dark:shadow-none">
+                    <div class="bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col md:flex-row shadow-2xl transition-all hover:scale-[1.01]">
                         <div class="p-8 flex-1">
-                            <div class="flex justify-between items-start mb-6">
+                            <div class="flex justify-between items-start mb-8">
                                 <div>
-                                    <h3 class="text-2xl font-black uppercase text-slate-800 dark:text-white leading-tight italic tracking-tighter">${t.subject}</h3>
-                                    <p class="text-[10px] font-black text-indigo-500 tracking-[0.3em] mt-1 uppercase">Section ${t.groupNumber}</p>
+                                    <h3 class="text-3xl font-black uppercase text-slate-800 dark:text-white leading-none tracking-tighter mb-2 italic">${t.subject}</h3>
+                                    <span class="text-[10px] font-black bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 px-3 py-1 rounded-full uppercase tracking-widest">Section ${t.groupNumber}</span>
                                 </div>
-                                <button onclick="promptUnlock('${t.id}')" class="text-[10px] font-black text-slate-400 hover:text-indigo-500 border border-slate-100 dark:border-slate-800 px-3 py-1 rounded-lg uppercase transition-all">🔑 Admin</button>
+                                <button onclick="promptUnlock('${t.id}')" class="text-[10px] font-black ${isUnlocked ? 'text-indigo-500' : 'text-slate-400'} hover:text-indigo-500 border border-slate-100 dark:border-slate-800 px-4 py-2 rounded-xl uppercase transition-all">
+                                    ${isUnlocked ? '🔓 Admin Active' : '🔑 Unlock Admin'}
+                                </button>
                             </div>
-                            <div class="grid grid-cols-1 gap-3">
+                            
+                            <div class="space-y-3">
                                 ${t.applicants.map((a, i) => `
-                                    <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800">
-                                        <div class="flex items-center gap-3 overflow-hidden">
-                                            <span class="text-xl">${a.isHost ? '👑' : '👤'}</span>
+                                    <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all">
+                                        <div class="flex items-center gap-4 overflow-hidden">
+                                            <span class="text-2xl">${a.isHost ? '👑' : '👤'}</span>
                                             <div class="overflow-hidden">
-                                                <p class="text-sm font-bold leading-none mb-1 truncate">${a.name}</p>
-                                                <p id="c-${t.id}-${i}" class="text-[10px] blur-text text-slate-300 dark:text-slate-700 truncate">CONTACT_HIDDEN</p>
+                                                <p class="text-sm font-extrabold text-slate-700 dark:text-slate-200 truncate">${a.name}</p>
+                                                <p class="text-[10px] ${isUnlocked ? 'text-indigo-500 font-bold' : 'blur-text text-slate-300 dark:text-slate-700'} truncate">
+                                                    ${isUnlocked ? a.contact : 'CONTACT_HIDDEN_LINK'}
+                                                </p>
                                             </div>
                                         </div>
-                                        <div id="actions-${t.id}-${i}" class="hidden flex gap-2">
-                                            <button onclick="copyLink('${a.contact}')" class="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 p-2 rounded-lg hover:scale-110 transition-transform">📋</button>
-                                            ${!a.isHost ? `<button onclick="removeParticipant('${t.id}', ${i})" class="bg-red-100 dark:bg-red-900/40 text-red-600 p-2 rounded-lg hover:scale-110 transition-transform">🗑️</button>` : ''}
-                                        </div>
+                                        ${isUnlocked ? `
+                                            <div class="flex gap-2">
+                                                <button onclick="copyLink('${a.contact}')" class="bg-white dark:bg-slate-700 p-2 rounded-xl shadow-sm hover:bg-indigo-500 hover:text-white transition-all text-lg">📋</button>
+                                                ${!a.isHost ? `<button onclick="removeParticipant('${t.id}', ${i})" class="bg-white dark:bg-slate-700 p-2 rounded-xl shadow-sm hover:bg-red-500 hover:text-white transition-all text-lg">🗑️</button>` : ''}
+                                            </div>
+                                        ` : ''}
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
-                        <div class="p-8 bg-slate-900 md:w-64 flex flex-col items-center justify-center text-white border-t md:border-l border-slate-800">
-                            <div class="text-center mb-6">
-                                <span class="text-5xl font-black">${t.currentMembers}</span><span class="text-slate-500 font-black">/${t.maxMembers}</span>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Confirmed</p>
+
+                        <div class="p-10 bg-slate-900 md:w-72 flex flex-col items-center justify-center text-white border-t md:border-l border-slate-800">
+                            <div class="text-center mb-8">
+                                <span class="text-6xl font-black tracking-tighter">${t.currentMembers}</span>
+                                <span class="text-2xl text-slate-600 font-black">/${t.maxMembers}</span>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.4em] mt-2">Capacity</p>
                             </div>
-                            <button onclick="promptJoin('${t.id}')" ${isFull ? 'disabled' : ''} class="w-full py-4 rounded-2xl font-black text-xs tracking-widest ${isFull ? 'bg-slate-800 text-slate-600' : 'bg-emerald-500 text-slate-900 shadow-lg shadow-emerald-500/20 active:scale-95'} transition-all uppercase">
-                                ${isFull ? 'CLOSED' : 'JOIN GROUP'}
+                            <button onclick="promptJoin('${t.id}')" ${isFull ? 'disabled' : ''} 
+                                    class="w-full py-5 rounded-2xl font-black text-xs tracking-[0.2em] transition-all uppercase 
+                                    ${isFull ? 'bg-slate-800 text-slate-600' : 'bg-emerald-500 text-slate-900 shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-105 active:scale-95'}">
+                                ${isFull ? 'TEAM FULL' : 'JOIN TEAM'}
                             </button>
-                            <button id="delete-post-${t.id}" onclick="deletePost('${t.id}')" class="hidden mt-4 text-[10px] font-black text-red-500/60 hover:text-red-500 uppercase tracking-widest transition-colors">Delete Post</button>
+                            ${isUnlocked ? `<button onclick="deletePost('${t.id}')" class="mt-6 text-[10px] font-bold text-red-500/50 hover:text-red-500 uppercase tracking-widest">Delete Entire Post</button>` : ''}
                         </div>
                     </div>
                 `;
