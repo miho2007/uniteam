@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniTeam Finder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Georgian:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script>
         if (localStorage.getItem('dark-mode') === 'true') document.documentElement.classList.add('dark');
     </script>
@@ -56,7 +56,6 @@
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
         html { scroll-behavior: smooth; }
 
         body {
@@ -67,6 +66,50 @@
             transition: background 0.3s, color 0.3s;
             line-height: 1.6;
         }
+        body.lang-ka {
+            font-family: 'Noto Sans Georgian', sans-serif;
+        }
+        body.lang-ka .logo-main,
+        body.lang-ka .hero h1 {
+            font-family: 'Noto Sans Georgian', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+        body.lang-ka .team-subject {
+            font-family: 'Noto Sans Georgian', sans-serif;
+            font-weight: 600;
+        }
+
+        /* ── LANG TOGGLE ── */
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 3px;
+            gap: 2px;
+        }
+        .lang-btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-3);
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+            letter-spacing: 0.03em;
+        }
+        .lang-btn.active {
+            background: var(--surface);
+            color: var(--accent);
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px color-mix(in srgb, black 8%, transparent);
+        }
+        .lang-btn:not(.active):hover { color: var(--text-2); }
 
         /* ── NAV ── */
         nav {
@@ -85,11 +128,7 @@
             align-items: center;
             justify-content: space-between;
         }
-        .logo {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-        }
+        .logo { display: flex; align-items: baseline; gap: 6px; }
         .logo-main {
             font-family: 'DM Serif Display', serif;
             font-size: 1.5rem;
@@ -118,11 +157,11 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.15s;
-            font-family: 'DM Sans', sans-serif;
+            font-family: inherit;
         }
         .btn-ghost:hover { background: var(--surface2); color: var(--text); border-color: var(--border-strong); }
 
-        /* ── MAIN LAYOUT ── */
+        /* ── MAIN ── */
         main { max-width: 1040px; margin: 0 auto; padding: 3rem 2rem 6rem; }
 
         /* ── HERO ── */
@@ -130,7 +169,7 @@
         .hero h1 {
             font-family: 'DM Serif Display', serif;
             font-size: clamp(2.2rem, 5vw, 3.4rem);
-            line-height: 1.1;
+            line-height: 1.15;
             letter-spacing: -0.03em;
             color: var(--text);
             margin-bottom: 0.6rem;
@@ -139,23 +178,16 @@
         .hero p { color: var(--text-2); font-size: 1rem; max-width: 460px; }
 
         /* ── SEARCH ── */
-        .search-wrap {
-            position: relative;
-            margin-bottom: 2.5rem;
-        }
+        .search-wrap { position: relative; margin-bottom: 2.5rem; }
         .search-wrap svg {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-3);
-            pointer-events: none;
+            position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+            color: var(--text-3); pointer-events: none;
         }
         #search-input {
             width: 100%;
             padding: 16px 20px 16px 50px;
             font-size: 1rem;
-            font-family: 'DM Sans', sans-serif;
+            font-family: inherit;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
@@ -177,43 +209,23 @@
             padding: 2rem;
             margin-bottom: 3rem;
         }
-        .section-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 1.5rem;
-        }
-        .section-label-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            flex-shrink: 0;
-        }
+        .section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
+        .section-label-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
         .section-label span {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-2);
+            font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2);
         }
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 12px;
         }
-        .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+        .form-field { display: flex; flex-direction: column; gap: 6px; }
         .form-field label {
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--text-2);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
+            font-size: 0.72rem; font-weight: 600;
+            color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em;
         }
+        body.lang-ka .form-field label { text-transform: none; letter-spacing: 0; font-size: 0.78rem; }
         .form-field input {
             padding: 12px 14px;
             border-radius: var(--radius);
@@ -221,7 +233,7 @@
             background: var(--bg);
             color: var(--text);
             font-size: 0.9rem;
-            font-family: 'DM Sans', sans-serif;
+            font-family: inherit;
             outline: none;
             transition: border-color 0.15s, box-shadow 0.15s;
         }
@@ -239,21 +251,15 @@
             box-shadow: 0 0 0 3px color-mix(in srgb, var(--amber) 10%, transparent);
         }
         .btn-publish {
-            width: 100%;
-            padding: 15px;
-            background: var(--accent);
-            color: white;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            border: none;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: opacity 0.15s, transform 0.1s;
-            font-family: 'DM Sans', sans-serif;
-            margin-top: 4px;
+            width: 100%; padding: 15px;
+            background: var(--accent); color: white;
+            font-size: 0.85rem; font-weight: 600;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            border: none; border-radius: var(--radius);
+            cursor: pointer; transition: opacity 0.15s, transform 0.1s;
+            font-family: inherit; margin-top: 4px;
         }
+        body.lang-ka .btn-publish { text-transform: none; letter-spacing: 0; font-size: 0.9rem; }
         .btn-publish:hover { opacity: 0.9; }
         .btn-publish:active { transform: scale(0.99); }
         .btn-publish:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -261,21 +267,18 @@
 
         /* ── LISTINGS HEADER ── */
         .listings-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
+            display: flex; align-items: center;
+            justify-content: space-between; margin-bottom: 1.5rem;
         }
         .listings-header h2 {
             font-family: 'DM Serif Display', serif;
-            font-size: 1.4rem;
-            letter-spacing: -0.02em;
+            font-size: 1.4rem; letter-spacing: -0.02em;
         }
-        #result-count {
-            font-size: 0.8rem;
-            color: var(--text-3);
-            font-weight: 500;
+        body.lang-ka .listings-header h2 {
+            font-family: 'Noto Sans Georgian', sans-serif;
+            font-weight: 600;
         }
+        #result-count { font-size: 0.8rem; color: var(--text-3); font-weight: 500; }
 
         /* ── TEAM CARD ── */
         .team-card {
@@ -288,251 +291,131 @@
             margin-bottom: 1.5rem;
             transition: border-color 0.2s, transform 0.2s;
         }
-        .team-card:hover {
-            border-color: var(--border-strong);
-            transform: translateY(-1px);
-        }
+        .team-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
         .team-body { padding: 2rem; min-width: 0; }
         .team-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            display: flex; align-items: flex-start;
+            justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem;
         }
-        .team-title-wrap {}
         .team-subject {
             font-family: 'DM Serif Display', serif;
-            font-size: 1.9rem;
-            letter-spacing: -0.03em;
-            line-height: 1;
-            color: var(--text);
-            margin-bottom: 6px;
+            font-size: 1.9rem; letter-spacing: -0.03em;
+            line-height: 1; color: var(--text); margin-bottom: 6px;
         }
         .team-section-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--accent-text);
-            background: var(--accent-dim);
-            padding: 3px 10px;
-            border-radius: 20px;
+            display: inline-flex; align-items: center; gap: 5px;
+            font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            color: var(--accent-text); background: var(--accent-dim);
+            padding: 3px 10px; border-radius: 20px;
         }
+        body.lang-ka .team-section-badge { text-transform: none; letter-spacing: 0; font-size: 0.75rem; }
         .btn-admin {
-            flex-shrink: 0;
-            font-size: 0.72rem;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-3);
-            transition: all 0.15s;
-            white-space: nowrap;
-            font-family: 'DM Sans', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            flex-shrink: 0; font-size: 0.72rem; font-weight: 600;
+            padding: 6px 14px; border-radius: var(--radius-sm);
+            cursor: pointer; border: 1px solid var(--border);
+            background: transparent; color: var(--text-3);
+            transition: all 0.15s; white-space: nowrap;
+            font-family: inherit;
+            display: flex; align-items: center; gap: 5px;
         }
         .btn-admin:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
         .btn-admin.unlocked { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
 
-        /* ── MEMBERS LIST ── */
+        /* ── MEMBERS ── */
         .members-list { display: flex; flex-direction: column; gap: 8px; }
         .member-row {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             justify-content: space-between;
             padding: 12px 14px;
             background: var(--surface2);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            transition: background 0.15s;
         }
         .member-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
         .member-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-            flex-shrink: 0;
-            letter-spacing: 0.02em;
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 600; flex-shrink: 0;
         }
         .member-avatar.host {
-            background: var(--amber-dim);
-            color: var(--amber);
+            background: var(--amber-dim); color: var(--amber);
             border: 1px solid color-mix(in srgb, var(--amber) 30%, transparent);
         }
         .member-avatar.member {
-            background: var(--accent-dim);
-            color: var(--accent-text);
+            background: var(--accent-dim); color: var(--accent-text);
             border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
         }
-        .member-name {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .member-role {
-            font-size: 0.68rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-3);
-        }
+        .member-name { font-size: 0.9rem; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .member-role { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); }
+        body.lang-ka .member-role { text-transform: none; letter-spacing: 0; font-size: 0.72rem; }
         .member-contact {
-            font-size: 0.78rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
+            font-size: 0.78rem; font-family: 'JetBrains Mono', monospace;
+            color: var(--accent); white-space: nowrap; overflow: hidden;
+            text-overflow: ellipsis; max-width: 200px;
         }
         .contact-blur {
-            filter: blur(5px);
-            user-select: none;
-            color: var(--text-3);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
+            filter: blur(5px); user-select: none;
+            color: var(--text-3); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
         }
         .member-actions { display: flex; gap: 6px; flex-shrink: 0; }
         .btn-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            background: var(--surface);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            transition: all 0.15s;
-            color: var(--text-2);
+            width: 30px; height: 30px; border-radius: var(--radius-sm);
+            border: 1px solid var(--border); background: var(--surface);
+            cursor: pointer; display: flex; align-items: center;
+            justify-content: center; font-size: 0.8rem;
+            transition: all 0.15s; color: var(--text-2);
         }
         .btn-icon:hover.copy { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
         .btn-icon:hover.del { background: var(--red-dim); border-color: var(--red); color: var(--red); }
 
         /* ── SIDEBAR ── */
         .team-sidebar {
-            background: var(--surface2);
-            border-left: 1px solid var(--border);
-            width: 220px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 1.5rem;
-            gap: 1.5rem;
-            flex-shrink: 0;
+            background: var(--surface2); border-left: 1px solid var(--border);
+            width: 220px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 2rem 1.5rem; gap: 1.5rem; flex-shrink: 0;
         }
-        .capacity-ring {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .capacity-ring { position: relative; display: flex; align-items: center; justify-content: center; }
         .capacity-ring svg { transform: rotate(-90deg); }
-        .capacity-label {
-            position: absolute;
-            text-align: center;
-        }
-        .capacity-num {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.6rem;
-            line-height: 1;
-            color: var(--text);
-        }
-        .capacity-max {
-            font-size: 0.7rem;
-            color: var(--text-3);
-            font-weight: 500;
-        }
+        .capacity-label { position: absolute; text-align: center; }
+        .capacity-num { font-family: 'DM Serif Display', serif; font-size: 1.6rem; line-height: 1; color: var(--text); }
+        .capacity-max { font-size: 0.7rem; color: var(--text-3); font-weight: 500; }
         .btn-join {
-            width: 100%;
-            padding: 13px;
-            border-radius: var(--radius);
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            border: none;
-            cursor: pointer;
-            transition: all 0.15s;
-            font-family: 'DM Sans', sans-serif;
+            width: 100%; padding: 13px; border-radius: var(--radius);
+            font-size: 0.8rem; font-weight: 600;
+            letter-spacing: 0.04em; text-transform: uppercase;
+            border: none; cursor: pointer; transition: all 0.15s; font-family: inherit;
         }
-        .btn-join.open {
-            background: var(--green);
-            color: white;
-        }
+        body.lang-ka .btn-join { text-transform: none; letter-spacing: 0; font-size: 0.85rem; }
+        .btn-join.open { background: var(--green); color: white; }
         .btn-join.open:hover { opacity: 0.88; transform: scale(1.02); }
         .btn-join.open:active { transform: scale(0.98); }
-        .btn-join.full {
-            background: var(--surface);
-            color: var(--text-3);
-            border: 1px solid var(--border);
-            cursor: not-allowed;
-        }
+        .btn-join.full { background: var(--surface); color: var(--text-3); border: 1px solid var(--border); cursor: not-allowed; }
         .btn-delete {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--text-3);
-            background: none;
-            border: none;
-            cursor: pointer;
-            letter-spacing: 0.04em;
-            padding: 4px;
-            text-transform: uppercase;
-            transition: color 0.15s;
-            font-family: 'DM Sans', sans-serif;
+            font-size: 0.7rem; font-weight: 600; color: var(--text-3);
+            background: none; border: none; cursor: pointer;
+            letter-spacing: 0.04em; padding: 4px; text-transform: uppercase;
+            transition: color 0.15s; font-family: inherit;
         }
+        body.lang-ka .btn-delete { text-transform: none; letter-spacing: 0; font-size: 0.75rem; }
         .btn-delete:hover { color: var(--red); }
 
         /* ── EMPTY STATE ── */
-        .empty-state {
-            text-align: center;
-            padding: 6rem 2rem;
-        }
-        .empty-state .empty-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
-        }
-        .empty-state h3 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.4rem;
-            color: var(--text-2);
-            margin-bottom: 0.4rem;
-        }
+        .empty-state { text-align: center; padding: 6rem 2rem; }
+        .empty-state .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+        .empty-state h3 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--text-2); margin-bottom: 0.4rem; }
+        body.lang-ka .empty-state h3 { font-family: 'Noto Sans Georgian', sans-serif; font-weight: 600; }
         .empty-state p { color: var(--text-3); font-size: 0.9rem; }
 
-        /* ── LOADING SKELETON ── */
+        /* ── SKELETON ── */
         .skeleton {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-xl);
-            height: 160px;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            position: relative;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius-xl); height: 160px;
+            margin-bottom: 1.5rem; overflow: hidden; position: relative;
         }
         .skeleton::after {
-            content: '';
-            position: absolute;
-            inset: 0;
+            content: ''; position: absolute; inset: 0;
             background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--border) 60%, transparent) 50%, transparent 100%);
             animation: shimmer 1.4s infinite;
         }
@@ -540,121 +423,64 @@
 
         /* ── MODAL ── */
         .modal-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: color-mix(in srgb, black 55%, transparent);
-            backdrop-filter: blur(6px);
-            z-index: 90;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
+            backdrop-filter: blur(6px); z-index: 90;
+            display: none; align-items: center;
+            justify-content: center; padding: 1.5rem;
         }
         .modal-overlay.show { display: flex; }
         .modal-box {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-xl);
-            padding: 2.5rem 2rem;
-            width: 100%;
-            max-width: 420px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius-xl); padding: 2.5rem 2rem;
+            width: 100%; max-width: 420px;
             animation: modalIn 0.2s ease-out;
         }
         @keyframes modalIn { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        .modal-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.6rem;
-            margin-bottom: 0.3rem;
-            letter-spacing: -0.02em;
-        }
-        .modal-sub {
-            font-size: 0.8rem;
-            color: var(--text-3);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 1.5rem;
-        }
+        .modal-title { font-family: 'DM Serif Display', serif; font-size: 1.6rem; margin-bottom: 0.3rem; letter-spacing: -0.02em; }
+        body.lang-ka .modal-title { font-family: 'Noto Sans Georgian', sans-serif; font-weight: 600; font-size: 1.3rem; }
+        .modal-sub { font-size: 0.8rem; color: var(--text-3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1.5rem; }
+        body.lang-ka .modal-sub { text-transform: none; letter-spacing: 0; font-size: 0.82rem; }
         .modal-field { margin-bottom: 12px; }
-        .modal-field label {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--text-2);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 6px;
-        }
+        .modal-field label { display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+        body.lang-ka .modal-field label { text-transform: none; letter-spacing: 0; font-size: 0.78rem; }
         .modal-field input {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            font-size: 0.9rem;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
+            width: 100%; padding: 12px 14px; border-radius: var(--radius);
+            border: 1px solid var(--border); background: var(--bg); color: var(--text);
+            font-size: 0.9rem; font-family: inherit; outline: none;
             transition: border-color 0.15s, box-shadow 0.15s;
         }
         .modal-field input::placeholder { color: var(--text-3); }
-        .modal-field input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 10%, transparent);
-        }
+        .modal-field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 10%, transparent); }
         .modal-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 1.5rem; }
         .btn-confirm {
-            width: 100%;
-            padding: 14px;
-            border-radius: var(--radius);
-            border: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: opacity 0.15s;
-            font-family: 'DM Sans', sans-serif;
+            width: 100%; padding: 14px; border-radius: var(--radius); border: none;
+            font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em;
+            text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; font-family: inherit;
         }
+        body.lang-ka .btn-confirm { text-transform: none; letter-spacing: 0; font-size: 0.9rem; }
         .btn-confirm.green { background: var(--green); color: white; }
         .btn-confirm.blue { background: var(--accent); color: white; }
         .btn-confirm:hover { opacity: 0.88; }
         .btn-cancel {
-            background: none;
-            border: none;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text-3);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            cursor: pointer;
-            padding: 8px;
-            text-align: center;
-            transition: color 0.15s;
-            font-family: 'DM Sans', sans-serif;
+            background: none; border: none; font-size: 0.78rem; font-weight: 600;
+            color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em;
+            cursor: pointer; padding: 8px; text-align: center;
+            transition: color 0.15s; font-family: inherit;
         }
+        body.lang-ka .btn-cancel { text-transform: none; letter-spacing: 0; font-size: 0.82rem; }
         .btn-cancel:hover { color: var(--text); }
 
         /* ── TOAST ── */
         #toast-container {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            position: fixed; top: 80px; right: 20px;
+            z-index: 100; display: flex; flex-direction: column; gap: 8px;
         }
         .toast-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 12px 16px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 12px 16px;
+            font-size: 0.85rem; font-weight: 500;
+            display: flex; align-items: center; gap: 10px;
             max-width: 320px;
             box-shadow: 0 8px 32px color-mix(in srgb, black 18%, transparent);
             animation: toastIn 0.25s ease-out;
@@ -665,36 +491,18 @@
         .toast-dot { font-size: 1rem; }
         .toast-msg { color: var(--text); }
 
-        /* ── PROGRESS BAR ── */
-        .progress-bar-wrap {
-            height: 3px;
-            background: var(--border);
-            border-radius: 3px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.4s ease;
-        }
-
         @media (max-width: 640px) {
             .team-card { grid-template-columns: 1fr; }
             .team-sidebar {
-                width: 100%;
-                border-left: none;
-                border-top: 1px solid var(--border);
-                padding: 1.5rem;
-                flex-direction: row;
-                justify-content: space-between;
-                flex-wrap: wrap;
-                gap: 1rem;
+                width: 100%; border-left: none; border-top: 1px solid var(--border);
+                padding: 1.5rem; flex-direction: row;
+                justify-content: space-between; flex-wrap: wrap; gap: 1rem;
             }
             nav { padding: 0 1rem; }
             main { padding: 2rem 1rem 5rem; }
             .hero h1 { font-size: 2rem; }
             .form-panel { padding: 1.5rem; }
+            .nav-actions { gap: 6px; }
         }
     </style>
 </head>
@@ -710,9 +518,13 @@
     <div class="nav-inner">
         <div class="logo">
             <span class="logo-main">UniTeam</span>
-            <span class="logo-tag">Finder</span>
+            <span class="logo-tag" data-i18n="finder">Finder</span>
         </div>
         <div class="nav-actions">
+            <div class="lang-toggle">
+                <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn" id="btn-ka" onclick="setLang('ka')">ქარ</button>
+            </div>
             <button class="btn-ghost" onclick="toggleDarkMode()" id="dark-btn">☽ Dark</button>
         </div>
     </div>
@@ -720,55 +532,55 @@
 
 <main>
     <div class="hero">
-        <h1>Find your <em>perfect</em><br>study group.</h1>
-        <p>Browse open team slots, join in seconds, and collaborate with the right people.</p>
+        <h1 data-i18n-html="heroTitle"></h1>
+        <p data-i18n="heroSub"></p>
     </div>
 
     <div class="search-wrap">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
-        <input id="search-input" type="text" oninput="renderTeams()" placeholder="Search by subject, section, or student name…">
+        <input id="search-input" type="text" oninput="renderTeams()" data-i18n-placeholder="searchPlaceholder">
     </div>
 
     <div class="form-panel">
         <div class="section-label">
             <div class="section-label-dot"></div>
-            <span>Post New Recruitment</span>
+            <span data-i18n="postNew"></span>
         </div>
         <div class="form-grid">
             <div class="form-field">
-                <label>Subject</label>
-                <input id="subject" type="text" placeholder="e.g. CS101">
+                <label data-i18n="fieldSubject"></label>
+                <input id="subject" type="text" data-i18n-placeholder="fieldSubjectPh">
             </div>
             <div class="form-field">
-                <label>Section</label>
-                <input id="group" type="text" placeholder="e.g. A1">
+                <label data-i18n="fieldSection"></label>
+                <input id="group" type="text" data-i18n-placeholder="fieldSectionPh">
             </div>
             <div class="form-field">
-                <label>Team Size</label>
-                <input id="max" type="number" placeholder="e.g. 4">
+                <label data-i18n="fieldTeamSize"></label>
+                <input id="max" type="number" data-i18n-placeholder="fieldTeamSizePh">
             </div>
             <div class="form-field">
-                <label>Your Name</label>
-                <input id="hostName" type="text" placeholder="Full name">
+                <label data-i18n="fieldYourName"></label>
+                <input id="hostName" type="text" data-i18n-placeholder="fieldYourNamePh">
             </div>
             <div class="form-field">
-                <label>Contact Link</label>
-                <input id="hostContact" type="text" placeholder="Telegram / WhatsApp">
+                <label data-i18n="fieldContact"></label>
+                <input id="hostContact" type="text" data-i18n-placeholder="fieldContactPh">
             </div>
             <div class="form-field password">
-                <label>Management Password</label>
-                <input id="password" type="password" placeholder="Set a secure password">
+                <label data-i18n="fieldPassword"></label>
+                <input id="password" type="password" data-i18n-placeholder="fieldPasswordPh">
             </div>
             <div class="full-row">
-                <button class="btn-publish" onclick="createTeam()" id="createBtn">Publish Listing</button>
+                <button class="btn-publish" onclick="createTeam()" id="createBtn" data-i18n="publishBtn"></button>
             </div>
         </div>
     </div>
 
     <div class="listings-header">
-        <h2>Open Groups</h2>
+        <h2 data-i18n="openGroups"></h2>
         <span id="result-count"></span>
     </div>
 
@@ -776,21 +588,182 @@
 </main>
 
 <script>
+    /* ════════════════════════════════
+       i18n STRINGS
+    ════════════════════════════════ */
+    const STRINGS = {
+        en: {
+            finder: 'Finder',
+            heroTitle: 'Find your <em>perfect</em><br>study group.',
+            heroSub: 'Browse open team slots, join in seconds, and collaborate with the right people.',
+            searchPlaceholder: 'Search by subject, section, or student name…',
+            postNew: 'Post New Recruitment',
+            fieldSubject: 'Subject',
+            fieldSubjectPh: 'e.g. CS101',
+            fieldSection: 'Section',
+            fieldSectionPh: 'e.g. A1',
+            fieldTeamSize: 'Team Size',
+            fieldTeamSizePh: 'e.g. 4',
+            fieldYourName: 'Your Name',
+            fieldYourNamePh: 'Full name',
+            fieldContact: 'Contact Link',
+            fieldContactPh: 'Telegram / WhatsApp',
+            fieldPassword: 'Management Password',
+            fieldPasswordPh: 'Set a secure password',
+            publishBtn: 'Publish Listing',
+            publishing: 'Publishing…',
+            openGroups: 'Open Groups',
+            listingsFound: (n) => `${n} listing${n !== 1 ? 's' : ''} found`,
+            noGroupsTitle: 'No groups found',
+            noGroupsSub: 'Try a different search, or post a new listing above.',
+            sectionLabel: (g) => `§ Section ${g}`,
+            adminActive: 'Admin active',
+            unlockAdmin: 'Unlock admin',
+            ofMax: (m) => `of ${m}`,
+            joinTeam: 'Join Team',
+            teamFull: 'Team Full',
+            deletePost: 'Delete post',
+            roleHost: 'Host',
+            roleMember: 'Member',
+            modalJoinTitle: 'Join Team',
+            modalJoinSub: 'Introduce yourself',
+            labelFullName: 'Full Name',
+            phFullName: 'Your full name',
+            labelContactLink: 'Contact Link',
+            phContactLink: 'Telegram / WhatsApp URL',
+            confirmEnrollBtn: 'Confirm Enrollment',
+            cancelBtn: 'Cancel',
+            modalAdminTitle: 'Admin Access',
+            modalAdminSub: 'Enter your management password',
+            labelPassword: 'Password',
+            phPassword: 'Your group password',
+            unlockBtn: 'Unlock Dashboard',
+            toastFillAll: 'Please fill in all fields',
+            toastNameContact: 'Name and contact required',
+            toastWelcome: 'Welcome to the team!',
+            toastAdminGranted: 'Admin access granted',
+            toastWrongPass: 'Incorrect password',
+            toastCopied: 'Link copied!',
+            toastDbError: 'Database connection error',
+            confirmRemove: 'Remove this member?',
+            confirmDelete: 'Delete this post permanently?',
+            darkBtn: '☽ Dark',
+            lightBtn: '☀ Light',
+        },
+        ka: {
+            finder: 'პოვნა',
+            heroTitle: 'იპოვე <em>სასურველი</em><br>სასწავლო ჯგუფი.',
+            heroSub: 'დაათვალიერე ღია გუნდები, შეუერთდი სწრაფად და ითანამშრომლე სწორ ადამიანებთან.',
+            searchPlaceholder: 'ძებნა საგნის, სექციის ან სახელის მიხედვით…',
+            postNew: 'ახალი განცხადების გამოქვეყნება',
+            fieldSubject: 'საგანი',
+            fieldSubjectPh: 'მაგ. CS101',
+            fieldSection: 'სექცია',
+            fieldSectionPh: 'მაგ. A1',
+            fieldTeamSize: 'გუნდის ზომა',
+            fieldTeamSizePh: 'მაგ. 4',
+            fieldYourName: 'სახელი',
+            fieldYourNamePh: 'სრული სახელი',
+            fieldContact: 'საკონტაქტო ბმული',
+            fieldContactPh: 'Telegram / WhatsApp',
+            fieldPassword: 'მართვის პაროლი',
+            fieldPasswordPh: 'დააყენე უსაფრთხო პაროლი',
+            publishBtn: 'განცხადების გამოქვეყნება',
+            publishing: 'ქვეყნდება…',
+            openGroups: 'ღია ჯგუფები',
+            listingsFound: (n) => `ნაპოვნია ${n} განცხადება`,
+            noGroupsTitle: 'ჯგუფი ვერ მოიძებნა',
+            noGroupsSub: 'სცადე სხვა ძებნა ან გამოაქვეყნე ახალი განცხადება.',
+            sectionLabel: (g) => `§ სექცია ${g}`,
+            adminActive: 'ადმინი აქტიურია',
+            unlockAdmin: 'ადმინის გახსნა',
+            ofMax: (m) => `${m}-დან`,
+            joinTeam: 'შეუერთდი',
+            teamFull: 'გუნდი სავსეა',
+            deletePost: 'განცხადების წაშლა',
+            roleHost: 'ჰოსტი',
+            roleMember: 'წევრი',
+            modalJoinTitle: 'გუნდში გაწევრიანება',
+            modalJoinSub: 'გაგვიცანი',
+            labelFullName: 'სრული სახელი',
+            phFullName: 'შენი სრული სახელი',
+            labelContactLink: 'საკონტაქტო ბმული',
+            phContactLink: 'Telegram / WhatsApp URL',
+            confirmEnrollBtn: 'გაწევრიანების დადასტურება',
+            cancelBtn: 'გაუქმება',
+            modalAdminTitle: 'ადმინის წვდომა',
+            modalAdminSub: 'შეიყვანე მართვის პაროლი',
+            labelPassword: 'პაროლი',
+            phPassword: 'ჯგუფის პაროლი',
+            unlockBtn: 'დაშბორდის გახსნა',
+            toastFillAll: 'გთხოვთ შეავსოთ ყველა ველი',
+            toastNameContact: 'სახელი და საკონტაქტო საჭიროა',
+            toastWelcome: 'კეთილი იყოს შენი მობრძანება!',
+            toastAdminGranted: 'ადმინის წვდომა მინიჭებულია',
+            toastWrongPass: 'არასწორი პაროლი',
+            toastCopied: 'ბმული დაკოპირებულია!',
+            toastDbError: 'მონაცემთა ბაზის შეცდომა',
+            confirmRemove: 'წაშალო ეს წევრი?',
+            confirmDelete: 'სამუდამოდ წაშალო ეს განცხადება?',
+            darkBtn: '☽ მუქი',
+            lightBtn: '☀ ღია',
+        }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'en';
+    const t = (key) => STRINGS[currentLang][key] || STRINGS['en'][key] || key;
+
+    function setLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
+        document.body.classList.toggle('lang-ka', lang === 'ka');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-ka').classList.toggle('active', lang === 'ka');
+        applyStaticTranslations();
+        renderTeams();
+        // Update dark button label
+        const isDark = document.documentElement.classList.contains('dark');
+        document.getElementById('dark-btn').textContent = isDark ? t('lightBtn') : t('darkBtn');
+    }
+
+    function applyStaticTranslations() {
+        // Text content
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            el.textContent = t(key);
+        });
+        // HTML content (for hero title with <em>)
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+            const key = el.getAttribute('data-i18n-html');
+            el.innerHTML = t(key);
+        });
+        // Placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            el.placeholder = t(key);
+        });
+        // Publish button (not a data-i18n target since it may say "Publishing…")
+        const createBtn = document.getElementById('createBtn');
+        if (createBtn && !createBtn.disabled) createBtn.textContent = t('publishBtn');
+    }
+
+    /* ════════════════════════════════
+       DARK MODE
+    ════════════════════════════════ */
+    function toggleDarkMode() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('dark-mode', isDark);
+        document.getElementById('dark-btn').textContent = isDark ? t('lightBtn') : t('darkBtn');
+    }
+
+    /* ════════════════════════════════
+       CORE APP
+    ════════════════════════════════ */
     const API_URL = 'https://69f4baeefb098eb7f0b4ce25.mockapi.io/teams';
     let allTeams = [];
     let unlockedPosts = new Set();
 
-    /* ── DARK MODE ── */
-    function toggleDarkMode() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('dark-mode', isDark);
-        document.getElementById('dark-btn').textContent = isDark ? '☀ Light' : '☽ Dark';
-    }
-    if (document.documentElement.classList.contains('dark')) {
-        document.getElementById('dark-btn').textContent = '☀ Light';
-    }
-
-    /* ── TOAST ── */
     function showToast(msg, type = 'error') {
         const container = document.getElementById('toast-container');
         const el = document.createElement('div');
@@ -798,44 +771,34 @@
         el.innerHTML = `<span class="toast-dot">${type === 'error' ? '✖' : '✔'}</span><span class="toast-msg">${msg}</span>`;
         container.appendChild(el);
         setTimeout(() => {
-            el.style.animation = 'none';
-            el.style.opacity = '0';
-            el.style.transform = 'translateX(20px)';
+            el.style.opacity = '0'; el.style.transform = 'translateX(20px)';
             el.style.transition = 'all 0.2s';
             setTimeout(() => el.remove(), 220);
         }, 2800);
     }
 
-    /* ── MODAL ── */
     function openModal(html) {
         document.getElementById('modal-box').innerHTML = html;
         document.getElementById('modal-overlay').classList.add('show');
     }
-    function closeModal() {
-        document.getElementById('modal-overlay').classList.remove('show');
-    }
+    function closeModal() { document.getElementById('modal-overlay').classList.remove('show'); }
     document.getElementById('modal-overlay').addEventListener('click', (e) => {
         if (e.target === e.currentTarget) closeModal();
     });
 
-    /* ── FETCH ── */
     async function fetchTeams() {
         const container = document.getElementById('teams-container');
-        container.innerHTML = `
-            <div class="skeleton"></div>
-            <div class="skeleton" style="height:120px"></div>
-        `;
+        container.innerHTML = `<div class="skeleton"></div><div class="skeleton" style="height:120px"></div>`;
         try {
             const res = await fetch(API_URL);
             allTeams = await res.json();
             renderTeams();
         } catch (e) {
-            showToast("Database connection error");
+            showToast(t('toastDbError'));
             container.innerHTML = '';
         }
     }
 
-    /* ── CREATE ── */
     async function createTeam() {
         const data = {
             subject: document.getElementById('subject').value.trim(),
@@ -845,10 +808,10 @@
             hostContact: document.getElementById('hostContact').value.trim(),
             password: document.getElementById('password').value
         };
-        if (Object.values(data).some(v => !v)) return showToast("Please fill in all fields");
+        if (Object.values(data).some(v => !v)) return showToast(t('toastFillAll'));
         const btn = document.getElementById('createBtn');
         btn.disabled = true;
-        btn.textContent = 'Publishing…';
+        btn.textContent = t('publishing');
         await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -857,22 +820,21 @@
         location.reload();
     }
 
-    /* ── JOIN ── */
     function promptJoin(id) {
         openModal(`
-            <div class="modal-title">Join Team</div>
-            <div class="modal-sub">Introduce yourself</div>
+            <div class="modal-title">${t('modalJoinTitle')}</div>
+            <div class="modal-sub">${t('modalJoinSub')}</div>
             <div class="modal-field">
-                <label>Full Name</label>
-                <input id="join-name" type="text" placeholder="Your full name">
+                <label>${t('labelFullName')}</label>
+                <input id="join-name" type="text" placeholder="${t('phFullName')}">
             </div>
             <div class="modal-field">
-                <label>Contact Link</label>
-                <input id="join-contact" type="text" placeholder="Telegram / WhatsApp URL">
+                <label>${t('labelContactLink')}</label>
+                <input id="join-contact" type="text" placeholder="${t('phContactLink')}">
             </div>
             <div class="modal-actions">
-                <button class="btn-confirm green" onclick="confirmJoin('${id}')">Confirm Enrollment</button>
-                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-confirm green" onclick="confirmJoin('${id}')">${t('confirmEnrollBtn')}</button>
+                <button class="btn-cancel" onclick="closeModal()">${t('cancelBtn')}</button>
             </div>
         `);
     }
@@ -880,8 +842,8 @@
     async function confirmJoin(id) {
         const name = document.getElementById('join-name').value.trim();
         const contact = document.getElementById('join-contact').value.trim();
-        if (!name || !contact) return showToast("Name and contact required");
-        const team = allTeams.find(t => t.id === id);
+        if (!name || !contact) return showToast(t('toastNameContact'));
+        const team = allTeams.find(t2 => t2.id === id);
         const updated = [...team.applicants, { name, contact, isHost: false }];
         await fetch(`${API_URL}/${id}`, {
             method: 'PUT',
@@ -889,22 +851,21 @@
             body: JSON.stringify({ currentMembers: team.currentMembers + 1, applicants: updated })
         });
         closeModal();
-        showToast("Welcome to the team!", "success");
+        showToast(t('toastWelcome'), 'success');
         fetchTeams();
     }
 
-    /* ── UNLOCK ── */
     function promptUnlock(id) {
         openModal(`
-            <div class="modal-title">Admin Access</div>
-            <div class="modal-sub">Enter your management password</div>
+            <div class="modal-title">${t('modalAdminTitle')}</div>
+            <div class="modal-sub">${t('modalAdminSub')}</div>
             <div class="modal-field">
-                <label>Password</label>
-                <input id="unlock-pass" type="password" placeholder="Your group password" onkeydown="if(event.key==='Enter') confirmUnlock('${id}')">
+                <label>${t('labelPassword')}</label>
+                <input id="unlock-pass" type="password" placeholder="${t('phPassword')}" onkeydown="if(event.key==='Enter') confirmUnlock('${id}')">
             </div>
             <div class="modal-actions">
-                <button class="btn-confirm blue" onclick="confirmUnlock('${id}')">Unlock Dashboard</button>
-                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-confirm blue" onclick="confirmUnlock('${id}')">${t('unlockBtn')}</button>
+                <button class="btn-cancel" onclick="closeModal()">${t('cancelBtn')}</button>
             </div>
         `);
         setTimeout(() => document.getElementById('unlock-pass')?.focus(), 50);
@@ -912,21 +873,20 @@
 
     function confirmUnlock(id) {
         const pass = document.getElementById('unlock-pass').value;
-        const team = allTeams.find(t => t.id === id);
+        const team = allTeams.find(t2 => t2.id === id);
         if (pass === team.password) {
             unlockedPosts.add(id);
             closeModal();
             renderTeams();
-            showToast("Admin access granted", "success");
+            showToast(t('toastAdminGranted'), 'success');
         } else {
-            showToast("Incorrect password");
+            showToast(t('toastWrongPass'));
         }
     }
 
-    /* ── REMOVE MEMBER ── */
     async function removeParticipant(teamId, applicantIndex) {
-        if (!confirm("Remove this member?")) return;
-        const team = allTeams.find(t => t.id === teamId);
+        if (!confirm(t('confirmRemove'))) return;
+        const team = allTeams.find(t2 => t2.id === teamId);
         const updatedApplicants = team.applicants.filter((_, i) => i !== applicantIndex);
         await fetch(`${API_URL}/${teamId}`, {
             method: 'PUT',
@@ -936,107 +896,95 @@
         fetchTeams();
     }
 
-    /* ── COPY ── */
     function copyLink(text) {
         navigator.clipboard.writeText(text);
-        showToast("Link copied!", "success");
+        showToast(t('toastCopied'), 'success');
     }
 
-    /* ── DELETE ── */
     async function deletePost(id) {
-        if (!confirm("Delete this post permanently?")) return;
+        if (!confirm(t('confirmDelete'))) return;
         await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
         fetchTeams();
     }
 
-    /* ── INITIALS ── */
     function initials(name) {
         return name.split(' ').slice(0, 2).map(w => w[0]?.toUpperCase() || '').join('');
     }
 
-    /* ── CAPACITY RING SVG ── */
     function capacityRing(current, max) {
         const pct = Math.min(current / max, 1);
-        const r = 36;
-        const circ = 2 * Math.PI * r;
-        const filled = circ * pct;
-        const full = pct >= 1;
-        const color = full ? 'var(--red)' : pct > 0.7 ? 'var(--amber)' : 'var(--green)';
+        const r = 36, circ = 2 * Math.PI * r;
+        const color = pct >= 1 ? 'var(--red)' : pct > 0.7 ? 'var(--amber)' : 'var(--green)';
         return `
             <div class="capacity-ring">
                 <svg width="90" height="90" viewBox="0 0 90 90">
                     <circle cx="45" cy="45" r="${r}" fill="none" stroke="var(--border)" stroke-width="5"/>
                     <circle cx="45" cy="45" r="${r}" fill="none" stroke="${color}" stroke-width="5"
-                        stroke-dasharray="${filled} ${circ}" stroke-linecap="round"/>
+                        stroke-dasharray="${circ * pct} ${circ}" stroke-linecap="round"/>
                 </svg>
                 <div class="capacity-label">
                     <div class="capacity-num">${current}</div>
-                    <div class="capacity-max">of ${max}</div>
+                    <div class="capacity-max">${STRINGS[currentLang].ofMax(max)}</div>
                 </div>
-            </div>
-        `;
+            </div>`;
     }
 
-    /* ── RENDER ── */
     function renderTeams() {
         const query = document.getElementById('search-input').value.toLowerCase();
         const container = document.getElementById('teams-container');
         const countEl = document.getElementById('result-count');
         container.innerHTML = '';
 
-        const filtered = allTeams.filter(t =>
-            t.subject.toLowerCase().includes(query) ||
-            t.groupNumber.toLowerCase().includes(query) ||
-            t.applicants.some(a => a.name.toLowerCase().includes(query))
+        const filtered = allTeams.filter(team =>
+            team.subject.toLowerCase().includes(query) ||
+            team.groupNumber.toLowerCase().includes(query) ||
+            team.applicants.some(a => a.name.toLowerCase().includes(query))
         ).sort((a, b) => b.id - a.id);
 
-        countEl.textContent = filtered.length
-            ? `${filtered.length} listing${filtered.length !== 1 ? 's' : ''} found`
-            : '';
+        countEl.textContent = filtered.length ? STRINGS[currentLang].listingsFound(filtered.length) : '';
 
         if (filtered.length === 0) {
             container.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-icon">◎</div>
-                    <h3>No groups found</h3>
-                    <p>Try a different search, or post a new listing above.</p>
-                </div>
-            `;
+                    <h3>${t('noGroupsTitle')}</h3>
+                    <p>${t('noGroupsSub')}</p>
+                </div>`;
             return;
         }
 
-        filtered.forEach(t => {
-            const isFull = t.currentMembers >= t.maxMembers;
-            const isUnlocked = unlockedPosts.has(t.id);
-            const pct = Math.min(t.currentMembers / t.maxMembers, 1);
+        filtered.forEach(team => {
+            const isFull = team.currentMembers >= team.maxMembers;
+            const isUnlocked = unlockedPosts.has(team.id);
 
-            const membersHTML = t.applicants.map((a, i) => `
+            const membersHTML = team.applicants.map((a, i) => `
                 <div class="member-row">
                     <div class="member-left">
                         <div class="member-avatar ${a.isHost ? 'host' : 'member'}">${initials(a.name)}</div>
                         <div style="min-width:0">
                             <div class="member-name">${a.name}</div>
-                            <div class="member-role">${a.isHost ? 'Host' : 'Member'}</div>
+                            <div class="member-role">${a.isHost ? t('roleHost') : t('roleMember')}</div>
                         </div>
                     </div>
                     <div style="display:flex;align-items:center;gap:10px;min-width:0">
                         ${isUnlocked
                             ? `<span class="member-contact">${a.contact}</span>`
-                            : `<span class="contact-blur">t.me/hidden_contact</span>`
-                        }
+                            : `<span class="contact-blur">t.me/hidden_contact</span>`}
                         ${isUnlocked ? `
                             <div class="member-actions">
-                                <button class="btn-icon copy" onclick="copyLink('${a.contact}')" title="Copy link">
+                                <button class="btn-icon copy" onclick="copyLink('${a.contact}')" title="${t('toastCopied')}">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                                 </button>
-                                ${!a.isHost ? `<button class="btn-icon del" onclick="removeParticipant('${t.id}', ${i})" title="Remove member">
+                                ${!a.isHost ? `<button class="btn-icon del" onclick="removeParticipant('${team.id}', ${i})">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14H6L5,6"/><path d="M10,11v6"/><path d="M14,11v6"/><path d="M9,6V4h6v2"/></svg>
                                 </button>` : ''}
-                            </div>
-                        ` : ''}
+                            </div>` : ''}
                     </div>
-                </div>
-            `).join('');
+                </div>`).join('');
+
+            const lockIcon = isUnlocked
+                ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`
+                : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`;
 
             const card = document.createElement('div');
             card.className = 'team-card';
@@ -1044,31 +992,43 @@
                 <div class="team-body">
                     <div class="team-header">
                         <div class="team-title-wrap">
-                            <div class="team-subject">${t.subject}</div>
-                            <span class="team-section-badge">§ Section ${t.groupNumber}</span>
+                            <div class="team-subject">${team.subject}</div>
+                            <span class="team-section-badge">${STRINGS[currentLang].sectionLabel(team.groupNumber)}</span>
                         </div>
-                        <button class="btn-admin ${isUnlocked ? 'unlocked' : ''}" onclick="promptUnlock('${t.id}')">
-                            ${isUnlocked
-                                ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Admin active`
-                                : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg> Unlock admin`
-                            }
+                        <button class="btn-admin ${isUnlocked ? 'unlocked' : ''}" onclick="promptUnlock('${team.id}')">
+                            ${lockIcon} ${isUnlocked ? t('adminActive') : t('unlockAdmin')}
                         </button>
                     </div>
                     <div class="members-list">${membersHTML}</div>
                 </div>
                 <div class="team-sidebar">
-                    ${capacityRing(t.currentMembers, t.maxMembers)}
-                    <button class="btn-join ${isFull ? 'full' : 'open'}" onclick="${isFull ? '' : `promptJoin('${t.id}')`}" ${isFull ? 'disabled' : ''}>
-                        ${isFull ? 'Team Full' : 'Join Team'}
+                    ${capacityRing(team.currentMembers, team.maxMembers)}
+                    <button class="btn-join ${isFull ? 'full' : 'open'}"
+                        onclick="${isFull ? '' : `promptJoin('${team.id}')`}"
+                        ${isFull ? 'disabled' : ''}>
+                        ${isFull ? t('teamFull') : t('joinTeam')}
                     </button>
-                    ${isUnlocked ? `<button class="btn-delete" onclick="deletePost('${t.id}')">Delete post</button>` : ''}
-                </div>
-            `;
+                    ${isUnlocked ? `<button class="btn-delete" onclick="deletePost('${team.id}')">${t('deletePost')}</button>` : ''}
+                </div>`;
             container.appendChild(card);
         });
     }
 
-    fetchTeams();
+    /* ── INIT ── */
+    (function init() {
+        // Apply saved language
+        document.documentElement.lang = currentLang;
+        document.body.classList.toggle('lang-ka', currentLang === 'ka');
+        document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+        document.getElementById('btn-ka').classList.toggle('active', currentLang === 'ka');
+        applyStaticTranslations();
+
+        // Apply saved dark mode label
+        const isDark = document.documentElement.classList.contains('dark');
+        document.getElementById('dark-btn').textContent = isDark ? t('lightBtn') : t('darkBtn');
+
+        fetchTeams();
+    })();
 </script>
 </body>
 </html>
